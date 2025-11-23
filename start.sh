@@ -41,10 +41,22 @@ else
     echo "Backend:  http://localhost:8000/"
 fi
 
-# Start the frontend dev server
+# Start the frontend dev server in background
 echo "Starting React frontend..."
 cd frontend
-npm run dev -- --host 0.0.0.0 --port 5173
+npm run dev -- --host 0.0.0.0 --port 5173 &
 
-# Keep the script running
-wait
+# Wait a moment for frontend to start
+sleep 3
+
+echo ""
+echo "========================================="
+echo "✅ Both servers are running in background"
+echo "========================================="
+echo ""
+echo "To stop servers, run:"
+echo "  pkill -f uvicorn && pkill -f vite"
+echo ""
+echo "To view logs:"
+echo "  tail -f nohup.out (if redirected)"
+echo ""

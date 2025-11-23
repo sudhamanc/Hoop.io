@@ -96,6 +96,31 @@ npm run dev
 
 Visit **http://localhost:5173** in your browser! 🎉
 
+### 🌐 Deploy on MyBinder (Alternative)
+
+Want to try Hoop.io without installing anything? Launch it on MyBinder!
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/sudhamanc/Hoop.io/main)
+
+**Steps:**
+1. Click the "launch binder" badge above
+2. Wait for the environment to build (first time takes ~5-10 minutes)
+3. Once loaded, open a terminal in JupyterLab
+4. Run: `./start.sh`
+5. Click on the proxy URLs to access:
+   - Frontend: Port 5173
+   - Backend API: Port 8000
+
+> ⚠️ **Note**: You'll need to set your `GOOGLE_API_KEY` environment variable in the Binder terminal:
+> ```bash
+> export GOOGLE_API_KEY="your_key_here"
+> ```
+
+**Binder Configuration Files:**
+- `binder/environment.yml` - Conda environment with Python, Node.js, and dependencies
+- `binder/postBuild` - Post-build script to install frontend packages
+- `start.sh` - Startup script to launch both servers
+
 ---
 
 ## 🛠️ Usage
@@ -384,7 +409,6 @@ Special thanks to the open-source community for making projects like this possib
 - ✅ Added conversation history and context management
 - ✅ Implemented source attribution (NBA API vs Gemini LLM)
 - ✅ Added quick actions and suggested queries
-- ✅ Cleaned up dead code and optimized codebase
 - ✅ Created comprehensive documentation
 
 ### Future Enhancements
@@ -400,6 +424,5 @@ Special thanks to the open-source community for making projects like this possib
 
 **Built with ❤️ for basketball fans everywhere**
 
-[Report Bug](https://github.com/yourusername/hoop-io/issues) • [Request Feature](https://github.com/yourusername/hoop-io/issues)
 
 </div>

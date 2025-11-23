@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+# Install frontend dependencies
+echo "Installing frontend dependencies..."
+cd frontend
+npm install
+cd ..
+
+# Make the start script executable
+chmod +x start.sh
+
+echo "Binder setup complete!"

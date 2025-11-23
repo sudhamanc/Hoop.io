@@ -86,8 +86,9 @@ npm install
 
 **Terminal 1 - Backend:**
 ```bash
-# From project root
-./venv/bin/uvicorn backend.main:app --reload --port 8000
+# From project root, activate venv first
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+uvicorn backend.main:app --reload --port 8000
 ```
 
 **Terminal 2 - Frontend:**
@@ -128,7 +129,6 @@ Want to try Hoop.io without installing anything? Launch it on MyBinder!
 - `binder/environment.yml` - Conda environment with Python, Node.js, and dependencies
 - `binder/postBuild` - Post-build script to install frontend packages
 - `start_mybinder.sh` - MyBinder startup script (builds frontend + starts backend)
-- `start.sh` - Local development script (runs both servers separately)
 
 ---
 
@@ -264,6 +264,8 @@ Assignment4/
 │   ├── main.py                # Main application entry point
 │   │                          # - FastAPI app configuration
 │   │                          # - MCP client setup and lifespan management
+│   │                          # - Environment detection (MyBinder vs local)
+│   │                          # - Static file serving for MyBinder
 │   │                          # - Chat endpoint with Gemini 2.5 Flash
 │   │                          # - Combined tool with Google Search + NBA API
 │   │                          # - Tool calling and response handling
@@ -285,7 +287,8 @@ Assignment4/
 │   ├── package.json              # Node dependencies
 │   ├── tailwind.config.js        # Tailwind CSS configuration
 │   ├── postcss.config.js         # PostCSS configuration
-│   └── vite.config.ts            # Vite build configuration
+│   ├── vite.config.ts            # Vite build configuration
+│   └── .env.local                # Local dev API URL (gitignored)
 │
 ├── mcp-server/                # MCP server for NBA data
 │   └── nba_server.py         # FastMCP server implementation
@@ -293,6 +296,11 @@ Assignment4/
 │                             # - get_standings() tool
 │                             # - get_player_stats() tool
 │
+├── binder/                    # MyBinder configuration
+│   ├── environment.yml       # Conda environment specification
+│   └── postBuild             # Post-build script for npm install
+│
+├── start_mybinder.sh          # MyBinder startup script
 ├── venv/                      # Python virtual environment (gitignored)
 └── README.md                 # This file
 ```

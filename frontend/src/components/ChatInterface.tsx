@@ -87,35 +87,21 @@ const ChatInterface: React.FC = () => {
 
       {/* Left Column: AI Responses / "The Feed" */}
       <div className="flex-1 flex flex-col relative z-10 h-full overflow-hidden">
-        {/* Fixed Header Section */}
-        <header className="flex-none p-6 border-b border-white/5 bg-[#0f1014]/95 backdrop-blur-md z-20 shrink-0">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
-              <span className="text-white font-bold text-lg">IO</span>
+        {/* Fixed Header Section - Aligned with right panel chat box */}
+        <header className="flex-none p-8 pt-[160px] bg-[#0f1014]/95 backdrop-blur-md z-20 shrink-0">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-600/10 flex items-center justify-center shadow-lg shadow-purple-500/20 shrink-0 border border-white/10">
+              <span className="text-3xl">🏀</span>
             </div>
-            <div>
-              <h1 className="text-xl font-bold tracking-tight">
+            <div className="min-w-0">
+              <h1 className="text-2xl font-bold tracking-tight">
                 Hoop<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">.io</span>
               </h1>
-              <p className="text-slate-400 text-xs font-medium tracking-wide uppercase">NBA Intelligence Engine</p>
+              <p className="text-slate-400 text-sm font-medium tracking-wide">
+                {messages.length > 0 ? 'Ready for Tip-Off' : 'NBA Intelligence Engine'}
+              </p>
             </div>
           </div>
-
-          {/* Persistent Welcome Banner - Visible only when chatting */}
-          {messages.length > 0 && (
-            <div className="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/5">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500/10 to-purple-500/10 flex items-center justify-center border border-white/5 shrink-0">
-                <div className="text-lg">🏀</div>
-              </div>
-              <div className="min-w-0">
-                <h2 className="text-sm font-bold text-white mb-0.5">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mr-1">Hoop.io</span>
-                  Ready for Tip-Off
-                </h2>
-                <p className="text-xs text-slate-400">Ask about live scores, player stats, or historical data.</p>
-              </div>
-            </div>
-          )}
         </header>
 
         {/* Scrollable Chat Feed */}

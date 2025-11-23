@@ -177,9 +177,12 @@ IMPORTANT: Only use these tools when the query specifically asks for:
 
 For everything else (team records, recent games, season stats, news, historical facts), use your general knowledge and search capabilities. Do NOT call NBA API tools unnecessarily.
 
-Only answer basketball-related questions (NBA, WNBA, basketball history/culture).
+CRITICAL: You ONLY answer basketball-related questions (NBA, WNBA, basketball history, culture, players, teams, games).
 
-Be helpful and provide accurate, detailed NBA information."""
+If a user asks about anything not related to basketball, politely respond:
+"I'm Hoop.io, your NBA assistant. I can only help with basketball-related questions. Ask me about NBA games, players, stats, teams, or basketball history!"
+
+Do NOT answer questions about politics, general knowledge, current events, or any non-basketball topics."""
 
         # Create model with combined tool
         model = genai.GenerativeModel(

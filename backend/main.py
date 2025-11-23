@@ -78,7 +78,16 @@ else:
 # Serve static files only in MyBinder environment
 static_dir = Path(__file__).parent.parent / "frontend" / "dist"
 if IS_MYBINDER and static_dir.exists():
+    # Mount assets directory
     app.mount("/assets", StaticFiles(directory=static_dir / "assets"), name="assets")
+    
+    @app.get("/vite.svg")
+    async def serve_vite_svg():
+        """Serve vite.svg if it exists"""
+        svg_path = static_dir / "vite.svg"
+        if svg_path.exists():
+            return FileResponse(svg_path)
+        return {"error": "Not found"}
     
     @app.get("/")
     async def serve_root():

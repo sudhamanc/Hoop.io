@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -143,8 +144,8 @@ const ChatInterface: React.FC = () => {
                     {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
-                <div className="prose prose-invert max-w-none prose-p:text-slate-300 prose-p:leading-loose prose-headings:text-white prose-strong:text-blue-300 prose-a:text-purple-400">
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+                <div className="prose prose-invert max-w-none prose-p:text-slate-300 prose-p:leading-loose prose-headings:text-white prose-strong:text-blue-300 prose-a:text-purple-400 prose-table:border-collapse prose-th:border prose-th:border-slate-600 prose-th:bg-slate-800 prose-th:p-3 prose-td:border prose-td:border-slate-700 prose-td:p-3">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
                 </div>
               </div>
             </div>

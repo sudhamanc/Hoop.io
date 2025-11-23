@@ -52,31 +52,52 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for MyBinder
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# Determine if running in MyBinder environment
+IS_MYBINDER = os.getenv("JUPYTERHUB_SERVICE_PREFIX") is not None
 
-# Serve static files if frontend/dist exists (for MyBinder)
+# Set CORS based on environment
+if IS_MYBINDER:
+    # MyBinder: Allow all origins (static files served from same origin)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    # Local dev: Only allow Vite dev server
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:5173"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+# Serve static files only in MyBinder environment
 static_dir = Path(__file__).parent.parent / "frontend" / "dist"
-if static_dir.exists():
+if IS_MYBINDER and static_dir.exists():
     app.mount("/assets", StaticFiles(directory=static_dir / "assets"), name="assets")
     
     @app.get("/")
     async def serve_root():
-        """Serve the frontend index.html"""
+        """Serve the frontend index.html (MyBinder only)"""
         return FileResponse(static_dir / "index.html")
     
-    print(f"✓ Serving static files from {static_dir}")
+    print(f"✓ MyBinder mode: Serving static files from {static_dir}")
+elif IS_MYBINDER:
+    @app.get("/")
+    async def root():
+        return {"error": "Frontend not built. Run './start_mybinder.sh' to build and serve the app."}
+    
+    print("⚠️  MyBinder detected but frontend/dist not found. Run 'npm run build' in frontend/")
 else:
     @app.get("/")
     async def root():
-        return {"message": "Hoop.io NBA Assistant API", "status": "running"}
+        return {"message": "Hoop.io NBA Assistant API", "status": "running", "mode": "development"}
     
-    print("ℹ️  Running in dev mode (no static files)")
+    print("ℹ️  Local dev mode: API only (frontend on port 5173)")
 
 # Configure Gemini
 api_key = os.getenv("GOOGLE_API_KEY")

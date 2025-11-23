@@ -111,24 +111,33 @@ async def chat_endpoint(request: ChatRequest):
             role = "user" if msg.role == "user" else "model"
             history.append({"role": role, "parts": [msg.content]})
         
-        # 2. Create model with system instruction and Google Search grounding
-        system_instruction = """You are an expert NBA assistant. You have comprehensive knowledge about NBA history, teams, players, and statistics.
+        # 2. Create model with system instruction and current date
+        from datetime import datetime
+        current_date = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+        
+        system_instruction = f"""You are an expert NBA assistant. Today's date is {current_date}.
+
+You have comprehensive knowledge about NBA history, teams, players, and statistics.
+
+IMPORTANT GUARDRAILS:
+1. You are a specialized NBA and basketball assistant. You MUST NOT answer questions unrelated to basketball, the NBA, the WNBA, or basketball culture/history.
+2. If a user asks about non-basketball topics (e.g., politics, weather, general news, coding, math), politely decline and remind them that you are an NBA assistant.
+3. Use Google Search grounding ONLY for basketball-related queries (e.g., current NBA scores, player news, basketball events). Do NOT use it for general web searches unrelated to basketball.
 
 For general NBA knowledge questions (like historical facts, all-time records, team histories), use your training data to provide accurate answers.
 
-For real-time or current data (like today's games, current standings, current season stats, current date/time), use the available tools to fetch live data or use Google Search grounding.
+For real-time or current data (like today's games, current standings, current season stats), use the available tools to fetch live data.
 
 Be helpful and provide detailed, accurate information about the NBA."""
 
         chat_model = genai.GenerativeModel(
             'gemini-2.5-flash',
-            system_instruction=system_instruction,
-            tools='google_search_retrieval'  # Enable Google Search grounding
+            system_instruction=system_instruction
         )
         
         chat = chat_model.start_chat(history=history)
         
-        # 3. Send user's message to Gemini with available tools
+        # 3. Send user's message to Gemini with NBA API tools
         last_message = request.messages[-1].content
         
         response = chat.send_message(

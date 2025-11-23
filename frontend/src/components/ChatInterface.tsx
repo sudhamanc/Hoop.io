@@ -14,6 +14,14 @@ const ChatInterface: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Log API URL on component mount for debugging
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    console.log('🏀 Hoop.io ChatInterface loaded');
+    console.log('📡 API URL:', apiUrl);
+    console.log('🌍 Environment:', import.meta.env.MODE);
+  }, []);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -37,7 +45,11 @@ const ChatInterface: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/chat', {
+      // Use environment variable or default to localhost for local development
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      console.log('🚀 Sending message to:', `${apiUrl}/api/chat`);
+      
+      const response = await fetch(`${apiUrl}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,8 +59,12 @@ const ChatInterface: React.FC = () => {
         }),
       });
 
+      console.log('📥 Response status:', response.status);
+
       if (!response.ok) {
-        throw new Error('Failed to fetch response');
+        const errorText = await response.text();
+        console.error('❌ API Error:', errorText);
+        throw new Error(`Failed to fetch response: ${response.status}`);
       }
 
       const data = await response.json();

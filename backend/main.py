@@ -111,18 +111,19 @@ async def chat_endpoint(request: ChatRequest):
             role = "user" if msg.role == "user" else "model"
             history.append({"role": role, "parts": [msg.content]})
         
-        # 2. Create model with system instruction
+        # 2. Create model with system instruction and Google Search grounding
         system_instruction = """You are an expert NBA assistant. You have comprehensive knowledge about NBA history, teams, players, and statistics.
 
 For general NBA knowledge questions (like historical facts, all-time records, team histories), use your training data to provide accurate answers.
 
-For real-time or current data (like today's games, current standings, current season stats), use the available tools to fetch live data.
+For real-time or current data (like today's games, current standings, current season stats, current date/time), use the available tools to fetch live data or use Google Search grounding.
 
 Be helpful and provide detailed, accurate information about the NBA."""
 
         chat_model = genai.GenerativeModel(
-            'gemini-2.0-flash',
-            system_instruction=system_instruction
+            'gemini-2.5-flash',
+            system_instruction=system_instruction,
+            tools='google_search_retrieval'  # Enable Google Search grounding
         )
         
         chat = chat_model.start_chat(history=history)

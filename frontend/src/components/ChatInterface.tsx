@@ -46,11 +46,12 @@ const ChatInterface: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Use environment variable or default to same-origin (empty string) for production builds
+      // Use environment variable or default to relative path for production builds
       const apiUrl = import.meta.env.VITE_API_URL || '';
-      const endpoint = apiUrl ? `${apiUrl}/api/chat` : '/api/chat';
+      // Use relative path without leading slash to stay within proxy context
+      const endpoint = apiUrl ? `${apiUrl}/api/chat` : './api/chat';
       console.log('🚀 Sending message to:', endpoint);
-      console.log('🔍 API URL:', apiUrl || '(same origin)');
+      console.log('🔍 API URL:', apiUrl || '(relative path)');
       
       const response = await fetch(endpoint, {
         method: 'POST',

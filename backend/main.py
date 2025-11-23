@@ -3,9 +3,12 @@ import sys
 from typing import List, Optional, Any
 from datetime import datetime
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
@@ -51,11 +54,29 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],  # Allow all origins for MyBinder
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Serve static files if frontend/dist exists (for MyBinder)
+static_dir = Path(__file__).parent.parent / "frontend" / "dist"
+if static_dir.exists():
+    app.mount("/assets", StaticFiles(directory=static_dir / "assets"), name="assets")
+    
+    @app.get("/")
+    async def serve_root():
+        """Serve the frontend index.html"""
+        return FileResponse(static_dir / "index.html")
+    
+    print(f"✓ Serving static files from {static_dir}")
+else:
+    @app.get("/")
+    async def root():
+        return {"message": "Hoop.io NBA Assistant API", "status": "running"}
+    
+    print("ℹ️  Running in dev mode (no static files)")
 
 # Configure Gemini
 api_key = os.getenv("GOOGLE_API_KEY")

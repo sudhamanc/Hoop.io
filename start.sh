@@ -10,14 +10,25 @@ sleep 5
 # Detect if running in MyBinder and set API URL accordingly
 # In MyBinder, we need to use the proxy URL structure
 if [ -n "$JUPYTERHUB_SERVICE_PREFIX" ]; then
-    # Extract base URL and construct backend proxy URL
+    # Extract base URL and construct proxy URLs
     # The URL pattern is: /user/{username}/proxy/{port}/
     BASE_URL=$(echo $JUPYTERHUB_SERVICE_PREFIX | sed 's/\/$//')
+    
+    # Set backend API URL for frontend
     export VITE_API_URL="${BASE_URL}/proxy/8000"
-    echo "MyBinder detected - Backend API will be at: $VITE_API_URL"
+    
+    # Set base path for Vite assets
+    export VITE_BASE_PATH="${BASE_URL}/proxy/5173/"
+    
+    # Set HMR host for hot module replacement
+    export VITE_HMR_HOST="hub.gesis.mybinder.org"
+    
+    echo "MyBinder detected"
+    echo "  Backend API: $VITE_API_URL"
+    echo "  Frontend base path: $VITE_BASE_PATH"
 else
     # Running locally
-    echo "Local environment - using localhost:8000"
+    echo "Local environment - using localhost"
 fi
 
 # Start the frontend dev server

@@ -108,20 +108,27 @@ Want to try Hoop.io without installing anything? Launch it on MyBinder!
 1. Click the "launch binder" badge above
 2. Wait for the environment to build (first time takes ~5-10 minutes)
 3. Once loaded, open a terminal in JupyterLab
-4. Run: `./start.sh`
-5. Click on the proxy URLs to access:
-   - Frontend: Port 5173
-   - Backend API: Port 8000
+4. Set your API key:
+   ```bash
+   export GOOGLE_API_KEY="your_key_here"
+   ```
+5. Run the MyBinder startup script:
+   ```bash
+   ./start_mybinder.sh
+   ```
+6. Copy the URL displayed (e.g., `https://hub.gesis.mybinder.org/user/.../proxy/8000/`)
+7. Paste it in your browser and start chatting! 🏀
 
-> ⚠️ **Note**: You'll need to set your `GOOGLE_API_KEY` environment variable in the Binder terminal:
-> ```bash
-> export GOOGLE_API_KEY="your_key_here"
-> ```
+**How it works:**
+- `start_mybinder.sh` builds the frontend and serves it through the backend
+- Uses a single port (8000) to avoid JupyterHub proxy authentication issues
+- The app is fully functional with all NBA tools and Gemini integration
 
 **Binder Configuration Files:**
 - `binder/environment.yml` - Conda environment with Python, Node.js, and dependencies
 - `binder/postBuild` - Post-build script to install frontend packages
-- `start.sh` - Startup script to launch both servers
+- `start_mybinder.sh` - MyBinder startup script (builds frontend + starts backend)
+- `start.sh` - Local development script (runs both servers separately)
 
 ---
 

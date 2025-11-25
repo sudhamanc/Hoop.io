@@ -99,6 +99,30 @@ npm run dev
 
 Visit **http://localhost:5173** in your browser! 🎉
 
+---
+
+## 🎨 New Features & Enhancements
+
+### ✅ Markdown Table Formatting
+- **GitHub Flavored Markdown**: Added `remark-gfm` plugin to ReactMarkdown for proper table rendering
+- **Tailwind Table Styling**: Custom prose classes for professional table appearance with borders and padding
+- **Example**: Ask "Show me NBA standings" to see beautifully formatted tables instead of pipe-delimited text
+
+### ✅ Enhanced System Instructions
+- **Explicit Formatting Rules**: LLM now formats all tabular data as Markdown tables with clear WRONG vs RIGHT examples
+- **Strategic Tool Usage**: Intelligent correlation logic (e.g., "How many games did LeBron win?" → get_standings() for Lakers)
+- **Basketball-Only Policy**: Refined guardrails to answer ALL basketball questions (including past games, scores from any date) while rejecting non-NBA queries
+
+### ✅ Search Grounding Integration
+- **Automatic Google Search**: Gemini 2.5 Flash includes built-in search grounding for current information
+- **No Explicit Calls Needed**: Search works automatically behind the scenes without explicit google_search tool calls
+- **Current Season Data**: Questions about recent games, latest trades, or current records are answered via search grounding
+
+### ✅ MyBinder Deployment Ready
+- **Complete Dependencies**: All backend packages (fastapi, uvicorn, google-generativeai, mcp, nba_api, python-dotenv, httpx) specified in `environment.yml`
+- **Streamlined postBuild**: Removed obsolete references, only runs frontend npm install
+- **Production Ready**: Clean configuration for seamless MyBinder deployment
+
 ### 🌐 Deploy on MyBinder (Alternative)
 
 Want to try Hoop.io without installing anything? Launch it on MyBinder!
@@ -250,7 +274,8 @@ httpx>=0.27.2
   "react": "^18.3.1",
   "vite": "^6.0.1",
   "tailwindcss": "^4.0.0",
-  "react-markdown": "^9.0.1"
+  "react-markdown": "^9.0.1",
+  "remark-gfm": "^5.0.0"
 }
 ```
 
@@ -324,6 +349,8 @@ Assignment4/
 - **API Communication**: Sends requests to backend, handles responses
 - **UI Rendering**: Two-column layout with glassmorphism design
 - **User Interactions**: Input handling, quick actions, history management
+- **Markdown Table Support**: Uses `remark-gfm` plugin for GitHub Flavored Markdown table rendering
+- **Custom Styling**: Tailwind prose classes for professional table borders, padding, and layout
 
 ---
 
@@ -433,7 +460,16 @@ Special thanks to the open-source community for making projects like this possib
 
 ## 📝 Changelog
 
-### Version 1.0.0 (Current)
+### Version 1.1.0 (Current - November 2025)
+- ✅ **Markdown Table Rendering**: Added `remark-gfm` plugin for proper table formatting
+- ✅ **Enhanced System Instructions**: Explicit formatting rules with WRONG vs RIGHT examples
+- ✅ **Tool Correlation Logic**: Smart tool usage (e.g., player questions → team standings)
+- ✅ **Refined Guardrails**: Basketball-only policy that answers ALL NBA questions including past games
+- ✅ **Search Grounding**: Automatic Google Search integration for current season data
+- ✅ **MyBinder Ready**: Complete dependency specification in environment.yml
+- ✅ **Production Hardening**: 6 iterations of system instruction improvements for edge cases
+
+### Version 1.0.0 (Initial Release)
 - ✅ Initial release with full functionality
 - ✅ Integrated Google Gemini 2.5 Flash with MCP and Google Search grounding
 - ✅ Implemented three NBA API tools (live games, standings, player stats)

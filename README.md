@@ -96,32 +96,7 @@ uvicorn backend.main:app --reload --port 8000
 cd frontend
 npm run dev
 ```
-
 Visit **http://localhost:5173** in your browser! 🎉
-
----
-
-## 🎨 New Features & Enhancements
-
-### ✅ Markdown Table Formatting
-- **GitHub Flavored Markdown**: Added `remark-gfm` plugin to ReactMarkdown for proper table rendering
-- **Tailwind Table Styling**: Custom prose classes for professional table appearance with borders and padding
-- **Example**: Ask "Show me NBA standings" to see beautifully formatted tables instead of pipe-delimited text
-
-### ✅ Enhanced System Instructions
-- **Explicit Formatting Rules**: LLM now formats all tabular data as Markdown tables with clear WRONG vs RIGHT examples
-- **Strategic Tool Usage**: Intelligent correlation logic (e.g., "How many games did LeBron win?" → get_standings() for Lakers)
-- **Basketball-Only Policy**: Refined guardrails to answer ALL basketball questions (including past games, scores from any date) while rejecting non-NBA queries
-
-### ✅ Search Grounding Integration
-- **Automatic Google Search**: Gemini 2.5 Flash includes built-in search grounding for current information
-- **No Explicit Calls Needed**: Search works automatically behind the scenes without explicit google_search tool calls
-- **Current Season Data**: Questions about recent games, latest trades, or current records are answered via search grounding
-
-### ✅ MyBinder Deployment Ready
-- **Complete Dependencies**: All backend packages (fastapi, uvicorn, google-generativeai, mcp, nba_api, python-dotenv, httpx) specified in `environment.yml`
-- **Streamlined postBuild**: Removed obsolete references, only runs frontend npm install
-- **Production Ready**: Clean configuration for seamless MyBinder deployment
 
 ### 🌐 Deploy on MyBinder (Alternative)
 
